@@ -16,14 +16,13 @@ person4.addEventListener('load', name4Person);
 person4.open("GET", "http://swapi.co/api/people/4/");
 person4.send();
 
-
 var person14Name = new XMLHttpRequest();
 function name14Person() {
-  let obj = JSON.parse(this.responseText);
-  document.getElementById('person14Name').innerHTML = obj.name;
+  let person = JSON.parse(this.responseText);
+  document.getElementById('person14Name').innerHTML = person.name;
 
-  var species = new XMLHttpRequest();
-  species.open("GET", obj.species);
+  let species = new XMLHttpRequest();
+  species.open("GET", person.species);
   species.addEventListener('load', function() {
     let race = JSON.parse(this.responseText);
     document.getElementById('person14Species').innerHTML = race.name;
@@ -33,7 +32,6 @@ function name14Person() {
 person14Name.addEventListener('load', name14Person);
 person14Name.open("GET", "http://swapi.co/api/people/14/");
 person14Name.send();
-
 
 var film = new XMLHttpRequest();
 function films() {
@@ -50,7 +48,6 @@ function films() {
     head2.innerHTML = filmName;
     li.appendChild(head2);
 
-    let titlePlanet = filmTitle;
     let head3 = document.createElement('h3');
     head3.innerHTML = "Planets";
     li.appendChild(head3);
@@ -72,8 +69,6 @@ function films() {
         head4.className = 'planetName';
         head4.innerHTML = yayPlanet.name;
         liPlanet.appendChild(head4);
-
-        console.log(li);
       });
       home.send();
     });
