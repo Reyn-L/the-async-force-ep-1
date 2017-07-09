@@ -39,45 +39,45 @@ var film = new XMLHttpRequest();
 function films() {
   var obj = JSON.parse(this.responseText);
   let filmTitle = obj.results;
-  for(let i = 0; i < filmTitle.length; i++) {
+  filmTitle.map((name, nameIndex)=>{
     let li = document.createElement('li');
     li.className = "film";
     document.getElementById('filmList').appendChild(li);
 
     let head2 = document.createElement("h2");
-    let filmName = filmTitle[i].title;
+    let filmName = name.title;
     head2.className = "filmTitle";
     head2.innerHTML = filmName;
     li.appendChild(head2);
 
     let titlePlanet = filmTitle;
-    titlePlanet.map((c, i) => {
-      let head3 = document.createElement('h3');
-      head3.innerHTML = "Planets";
-      li.appendChild(head3);
+    let head3 = document.createElement('h3');
+    head3.innerHTML = "Planets";
+    li.appendChild(head3);
 
-      let ul = document.createElement('ul');
-      ul.className = 'filmPlanets';
-      li.appendChild(ul);
+    let ul = document.createElement('ul');
+    ul.className = 'filmPlanets';
+    li.appendChild(ul);
 
-      c.planets.map((planet, planetIndex) => {
-        var home = new XMLHttpRequest();
-        let liPlanet = document.createElement('li');
-        liPlanet.className = 'planet';
-        ul.appendChild(liPlanet);
-        home.open('GET', planet);
+    name.planets.map((planet, planetIndex) => {
+      var home = new XMLHttpRequest();
+      let liPlanet = document.createElement('li');
+      liPlanet.className = 'planet';
+      ul.appendChild(liPlanet);
+      home.open('GET', planet);
 
-        home.addEventListener('load', function(){
-          let yayPlanet = JSON.parse(this.responseText);
-          let head4 = document.createElement('h4');
-          head4.className = 'planetName';
-          head4.innerHTML = yayPlanet.name;
-          liPlanet.appendChild(head4);
-        });
-        home.send();
+      home.addEventListener('load', function(){
+        let yayPlanet = JSON.parse(this.responseText);
+        let head4 = document.createElement('h4');
+        head4.className = 'planetName';
+        head4.innerHTML = yayPlanet.name;
+        liPlanet.appendChild(head4);
+
+        console.log(li);
       });
+      home.send();
     });
-  }
+  });
 }
 film.addEventListener('load', films);
 film.open('GET', 'http://swapi.co/api/films/');
