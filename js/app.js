@@ -53,22 +53,46 @@ fetch('http://swapi.co/api/people/4/').then(function(res){
 })
 .then(function(res) {
   res.forEach(function(obj) {
+
     let li = document.createElement('li');
     li.className = 'film';
     document.getElementById('filmList').appendChild(li);
 
     let h2 = document.createElement('h2');
-    let filmName = res.title;
+    let filmName = obj.title;
     h2.className = "filmTitle";
     h2.innerHTML = filmName;
+    li.appendChild(h2);
 
     let h3 = document.createElement('h3');
     h3.innerHTML = "Planets";
     li.appendChild(h3);
 
-  });
+    let ul = document.createElement('ul');
+    ul.className = 'filmPlanets';
+    li.appendChild(ul);
+
+    obj.planets.forEach(function(obj) {
+      fetch(obj)
+      .then(function(res) {
+        return res.json();
+      })
+      .then(function(res) {
+        let liPlanet = document.createElement('li');
+        liPlanet.className = 'planet';
+        ul.appendChild(liPlanet);
+
+        let h4 = document.createElement('h4');
+        h4.className = 'planetName';
+        h4.innerHTML = res.name;
+        liPlanet.appendChild(h4);
+      });
+
+    });
 
   });
+
+});
 
 
 
